@@ -1,12 +1,13 @@
 import React from 'react';
 
 export interface NewsItem {
-  id: number;
+  id: string; // Changed from number to string to match CMS IDs
   title: string;
   category: string;
   date: string;
   image: string;
   description: string;
+  slug?: string; // Added for routing
 }
 
 export interface StatItem {
