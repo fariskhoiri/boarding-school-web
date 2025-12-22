@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, BookOpen, ArrowLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { FloatingShape } from './Decorations';
 
 const teachers = [
@@ -47,7 +48,7 @@ const teachers = [
 ];
 
 interface TeachersListProps {
-  onBack: () => void;
+  onBack?: () => void;
 }
 
 const TeachersList: React.FC<TeachersListProps> = ({ onBack }) => {
@@ -57,15 +58,20 @@ const TeachersList: React.FC<TeachersListProps> = ({ onBack }) => {
       <FloatingShape type="hexagon" className="bottom-40 right-10 text-emerald-500 opacity-10" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
-        <button 
-            onClick={onBack}
-            className="group flex items-center gap-2 text-emerald-600 font-bold mb-8 hover:text-emerald-800 transition-colors"
+        <Link 
+            to="/"
+            className="group inline-flex items-center gap-2 text-emerald-600 font-bold mb-8 hover:text-emerald-800 transition-colors"
+            onClick={(e) => {
+                if(onBack) {
+                    onBack();
+                }
+            }}
         >
             <div className="p-2 rounded-full bg-emerald-100 group-hover:bg-emerald-200 transition-colors">
                 <ArrowLeft size={20} />
             </div>
             Back to Home
-        </button>
+        </Link>
 
         <div className="text-center mb-16">
             <h1 className="text-5xl md:text-6xl font-bold text-gray-900 font-outfit mb-4">Our Faculty</h1>
@@ -105,9 +111,9 @@ const TeachersList: React.FC<TeachersListProps> = ({ onBack }) => {
                         <p className="text-gray-600 mb-6 leading-relaxed">
                             {teacher.bio}
                         </p>
-                        {/* <button className="w-full py-3 rounded-xl border border-emerald-100 bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-600 hover:text-white transition-all flex items-center justify-center gap-2">
+                        <button className="w-full py-3 rounded-xl border border-emerald-100 bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-600 hover:text-white transition-all flex items-center justify-center gap-2">
                             <BookOpen size={18} /> View Profile
-                        </button> */}
+                        </button>
                     </div>
                 </motion.div>
             ))}

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { NewsItem } from '../types';
 import { FloatingShape } from './Decorations';
 import { contentfulClient } from '../lib/contentful';
-import { Entry, EntrySkeletonType } from 'contentful';
+import { EntrySkeletonType } from 'contentful';
 
 // Define the shape of your Contentful Content Type fields
 interface ContentfulNewsFields {
@@ -46,7 +47,7 @@ const News: React.FC = () => {
           // Contentful image URLs often come as "//images.ctfassets.net/...", so we prepend https:
           // Cast image to any to avoid strict type checking on nested fields of EntrySkeletonType
           const rawImageUrl = (item.fields.image as any)?.fields?.file?.url;
-          const imageUrl = rawImageUrl 
+          const imageUrl = rawImageUrl
             ? (rawImageUrl.startsWith('//') ? `https:${rawImageUrl}` : rawImageUrl)
             : 'https://picsum.photos/600/400'; // Fallback image
 
@@ -137,28 +138,28 @@ const News: React.FC = () => {
                     {item.category}
                   </div>
                 </div>
-                
+
                 <div className="p-6 flex flex-col flex-grow">
                   <div className="flex items-center text-gray-400 text-xs font-medium mb-3 uppercase tracking-wider">
                     <Calendar size={14} className="mr-2 text-emerald-500" />
                     {item.date}
                   </div>
-                  
+
                   <h3 className="text-xl font-bold text-gray-800 mb-3 font-outfit leading-tight group-hover:text-emerald-700 transition-colors">
                     {item.title}
                   </h3>
-                  
+
                   <p className="text-gray-600 text-sm mb-6 line-clamp-3 flex-grow leading-relaxed">
                     {item.description}
                   </p>
-                  
-                  <button 
+
+                  <Link
+                    to={`/news/${item.slug}`}
                     className="self-start text-emerald-600 font-bold text-sm flex items-center group-hover:text-emerald-800 transition-colors mt-auto"
-                    onClick={() => console.log(`Navigating to: /news/${item.slug}`)}
                   >
-                    Read More 
+                    Read More
                     <ArrowRight size={16} className="ml-1 transition-transform group-hover:translate-x-1" />
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
             ))}
