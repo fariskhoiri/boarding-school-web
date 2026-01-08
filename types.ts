@@ -29,3 +29,15 @@ export interface FeatureCardProps {
   image: string;
   delay?: number;
 }
+
+export interface Teacher {
+  id: string;
+  name: string;
+  role: string;
+  subRole?: string;
+  subject?: string;
+  image: string;
+  email?: string;
+  bio?: string;
+  isLeadership?: boolean;
+}
