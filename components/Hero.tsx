@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const slides = [
   {
@@ -8,40 +9,49 @@ const slides = [
     image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=2070&auto=format&fit=crop",
     title: "Welcome to Tracen",
     subtitle: "Nurturing confident, compassionate, and capable individuals through holistic education.",
-    buttonPrimary: "Admission Open",
-    buttonSecondary: "Virtual Tour"
+    buttonPrimary: "Register Now",
+    path: "/admission",
   },
   {
     id: 2,
     image: "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=2086&auto=format&fit=crop",
     title: "State of Art Campus",
     subtitle: "Expansive grounds, modern facilities, and a vibrant learning environment for all.",
-    buttonPrimary: "Explore Campus",
-    buttonSecondary: "Gallery"
+    buttonPrimary: null,
   },
   {
     id: 3,
     image: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=2070&auto=format&fit=crop",
     title: "Holistic Development",
     subtitle: "Programs designed to foster intellectual, social, and physical growth in every student.",
-    buttonPrimary: "Our Programs",
-    buttonSecondary: "Student Life"
+    buttonPrimary: null,
   },
   {
     id: 4,
     image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop",
     title: "Global Curriculum",
     subtitle: "International standards of education preparing students for the challenges of tomorrow.",
-    buttonPrimary: "Academics",
-    buttonSecondary: "Results"
+    buttonPrimary: null,
   }
 ];
 
 const Hero: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const navigate = useNavigate();
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  // --- FITUR AUTO SLIDE ---
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 7000); // 5000ms = 5 detik
+
+    // Membersihkan interval saat user pindah slide manual atau komponen hilang
+    return () => clearInterval(interval);
+  }, [currentSlide]); // Dependency array: currentSlide
+  // ------------------------
 
   return (
     <section className="relative h-screen min-h-[600px] bg-emerald-900 overflow-hidden text-white">
@@ -49,10 +59,12 @@ const Hero: React.FC = () => {
         <motion.div
           key={currentSlide}
           className="absolute inset-0"
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
+          {...({
+            initial: { opacity: 0, scale: 1.1 },
+            animate: { opacity: 1, scale: 1 },
+            exit: { opacity: 0 },
+            transition: { duration: 0.8 }
+          } as any)}
         >
             {/* Background Image */}
             <img
@@ -69,17 +81,21 @@ const Hero: React.FC = () => {
          <AnimatePresence mode="wait">
             <motion.div
                 key={currentSlide}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -30, opacity: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
                 className="max-w-4xl"
+                {...({
+                    initial: { y: 30, opacity: 0 },
+                    animate: { y: 0, opacity: 1 },
+                    exit: { y: -30, opacity: 0 },
+                    transition: { duration: 0.5, delay: 0.2 }
+                } as any)}
             >
                 <motion.span 
                     className="inline-block py-1 px-4 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 font-bold text-sm tracking-wider mb-6 backdrop-blur-sm"
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.4 }}
+                    {...({
+                        initial: { scale: 0.9, opacity: 0 },
+                        animate: { scale: 1, opacity: 1 },
+                        transition: { delay: 0.4 }
+                    } as any)}
                 >
                     EST. 1995 • EXCELLENCE IN EDUCATION
                 </motion.span>
@@ -90,12 +106,20 @@ const Hero: React.FC = () => {
                     {slides[currentSlide].subtitle}
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-5">
-                    <button className="bg-emerald-500 hover:bg-emerald-400 text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all hover:-translate-y-1 flex items-center justify-center gap-2">
-                        {slides[currentSlide].buttonPrimary} <ArrowRight size={20} />
-                    </button>
-                    {/* <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:-translate-y-1">
-                        {slides[currentSlide].buttonSecondary}
-                    </button> */}
+                    {/* Primary Button - Conditionally Rendered */}
+                    {slides[currentSlide].buttonPrimary && (
+                        <button 
+                            onClick={() => {
+                                if (slides[currentSlide].path) {
+                                    navigate(slides[currentSlide].path);
+                                }
+                            }}
+                            className="bg-emerald-500 hover:bg-emerald-400 text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_30px_rgba(16,185,129,0.5)] transition-all hover:-translate-y-1 flex items-center justify-center gap-2"
+                        >
+                            {slides[currentSlide].buttonPrimary} <ArrowRight size={20} />
+                        </button>
+                    )}
+
                 </div>
             </motion.div>
          </AnimatePresence>
