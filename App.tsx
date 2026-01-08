@@ -13,6 +13,7 @@ import Footer from './components/Footer';
 import FloatingSocialMenu from './components/FloatingSocialMenu';
 import TeachersList from './components/TeachersList';
 import NewsDetail from './components/NewsDetail';
+import CalendarCTA from './components/CalendarCTA';
 
 function App() {
   const navigate = useNavigate();
@@ -44,18 +45,7 @@ function App() {
               <OurTeam onReadMore={() => navigate('/teachers')} />
               <Gallery />
               <News />
-              {/* Calendar CTA Strip */}
-              <section className="bg-emerald-700 py-12 px-4 md:px-8">
-                <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-                  <div className="text-center md:text-left">
-                    <h2 className="text-2xl md:text-3xl font-bold text-white font-outfit">Looking for the Academic Calendar?</h2>
-                    <p className="text-emerald-100 mt-1">Plan your year ahead with our detailed schedule.</p>
-                  </div>
-                  <button className="bg-white text-emerald-800 px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-emerald-50 transition-colors">
-                    Download PDF
-                  </button>
-                </div>
-              </section>
+              <CalendarCTA />
               <Announcements />
               <FAQ />
             </>

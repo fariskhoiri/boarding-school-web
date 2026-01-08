@@ -90,10 +90,10 @@ const OurTeam: React.FC<OurTeamProps> = () => {
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8" id="our-team">
             <div className="max-w-3xl">
                 <div className="flex items-center gap-4 mb-6">
-                     <span className="text-emerald-200 text-3xl font-bold font-outfit select-none">04</span>
+                     <span className="text-emerald-200 text-3xl font-bold font-outfit select-none"></span>
                      <h2 className="text-4xl md:text-5xl font-bold text-gray-900 font-outfit">Our Leadership</h2>
                 </div>
                 <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
